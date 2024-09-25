@@ -4,54 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervivencia en el Titanic</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .class-option {
+            display: inline-block;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .class-option input[type="radio"] {
+            display: none;
+        }
+        .class-option img {
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .class-option input[type="radio"]:checked + img {
+            border-color: #007bff;
+            border-width: 3px;
+        }
+        .class-option label {
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body>
-    <h1>Estimar la Tasa de Supervivencia</h1>
-    <form action="/predict" method="post">
-        <!-- Clase del pasajero -->
-        <label for="pclass">Clase (1, 2, 3):</label>
-        <input type="number" id="pclass" name="pclass" required><br><br>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title text-center">Estimar la Tasa de Supervivencia</h1>
+                <form action="/predict" method="post">
+                    
+                    <!-- Selección de Clase usando imágenes -->
+                    <div class="mb-3 text-center">
+                        <label for="pclass" class="form-label">Clase del Pasajero:</label>
+                        <div class="d-flex justify-content-center">
+                            <div class="class-option">
+                                <input type="radio" id="pclass1" name="pclass" value="3" required>
+                                <label for="pclass1">
+                                    <img src="{{ url_for('static', filename='img/baile3.jpeg') }}" alt="Primera Clase">
+                                </label>
+                            </div>
+                            <div class="class-option">
+                                <input type="radio" id="pclass2" name="pclass" value="2">
+                                <label for="pclass2">
+                                    <img src="{{ url_for('static', filename='img/cubierta2.jpeg') }}" alt="Segunda Clase">
+                                </label>
+                            </div>
+                            <div class="class-option">
+                                <input type="radio" id="pclass3" name="pclass" value="1">
+                                <label for="pclass3">
+                                    <img src="{{ url_for('static', filename='img/saludo1.jpeg') }}" alt="Tercera Clase">
+                                </label>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-        <!-- Sexo -->
-        <label for="sex">Sexo:</label>
-        <select id="sex" name="sex" required>
-            <option value="male">Hombre</option>
-            <option value="female">Mujer</option>
-        </select><br><br>
+                    <!-- El resto de los campos del formulario -->
+                    <div class="mb-3">
+                        <label for="sex" class="form-label">Sexo:</label>
+                        <select id="sex" name="sex" class="form-select" required>
+                            <option value="male">Hombre</option>
+                            <option value="female">Mujer</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sibsp" class="form-label">Número de hermanos/esposas a bordo:</label>
+                        <input type="number" class="form-control" id="sibsp" name="sibsp" required>
+                    </div>
+                    <!-- Añade los demás campos aquí -->
+                    <div class="mb-3">
+                        <label for="parch" class="form-label">Número de padres/hijos a bordo:</label>
+                        <input type="number" class="form-control" id="parch" name="parch" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="agegroup" class="form-label">Grupo de Edad ('Baby': 1, 'Child': 2, 'Teenager': 3, 'Student': 4, 'Young Adult': 5, 'Adult': 6, 'Senior': 7):</label>
+                        <input type="number" class="form-control" id="agegroup" name="agegroup" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="embarked" class="form-label">Puerto de Embarque:</label>
+                        <select id="embarked" name="embarked" class="form-select" required>
+                            <option value="S">Southampton</option>
+                            <option value="C">Cherbourg</option>
+                            <option value="Q">Queenstown</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cabinbool" class="form-label">¿Tenía cabina asignada? (1: Sí, 0: No):</label>
+                        <input type="number" class="form-control" id="cabinbool" name="cabinbool" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Título (1=Master,2=Miss, 3=Mr, 4=Mrs, 5=Rare, 6=Royal):</label>
+                        <input type="number" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fareband" class="form-label">Banda de Tarifa:(1-4) 1:barata 4:cara</label>
+                        <input type="number" class="form-control" id="fareband" name="fareband" required>
+                    </div>
 
-        <!-- Número de hermanos/esposas a bordo -->
-        <label for="sibsp">Número de hermanos/esposas a bordo:</label>
-        <input type="number" id="sibsp" name="sibsp" required><br><br>
+                    <button type="submit" class="btn btn-primary w-100">Predecir Supervivencia</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        <!-- Número de padres/hijos a bordo -->
-        <label for="parch">Número de padres/hijos a bordo:</label>
-        <input type="number" id="parch" name="parch" required><br><br>
-
-        <!-- Grupo de Edad -->
-        <label for="agegroup">Grupo de Edad ('Baby': 1, 'Child': 2, 'Teenager': 3, 'Student': 4, 'Young Adult': 5, 'Adult': 6, 'Senior': 7):</label>
-        <input type="number" id="agegroup" name="agegroup" required><br><br>
-
-        <!-- Embarcación -->
-        <label for="embarked">Puerto de Embarque:</label>
-        <select id="embarked" name="embarked" required>
-            <option value="S">Southampton</option>
-            <option value="C">Cherbourg</option>
-            <option value="Q">Queenstown</option>
-        </select><br><br>
-
-        <!-- Bool de Cabina -->
-        <label for="cabinbool">¿Tenía cabina asignada? (1: Sí, 0: No):</label>
-        <input type="number" id="cabinbool" name="cabinbool" required><br><br>
-
-        <!-- Título -->
-        <label for="title">Título (1=Master,2=Miss, 3=Mr, 4=Mrs, 5=Rare, 6=Royal):</label>
-        <input type="number" id="title" name="title" required><br><br>
-
-        <!-- Banda de tarifa -->
-        <label for="fareband">Banda de Tarifa:(1-4) 1:barata 4:cara</label>
-        <input type="number" id="fareband" name="fareband" required><br><br>
-
-        <input type="submit" value="Predecir Supervivencia">
-    </form>
+    <!-- Enlace al JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
