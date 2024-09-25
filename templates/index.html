@@ -15,19 +15,24 @@
             display: none;
         }
         .class-option img {
-            width: 100px;
-            height: 100px;
+            width: 20vw;
+            height: 20vw;
             border: 2px solid transparent;
             cursor: pointer;
+            transition: border-color 0.3s ease;
         }
-        .class-option input[type="radio"]:checked + img {
+        .class-option input[type="radio"]:checked + label img {
             border-color: #007bff;
             border-width: 3px;
         }
+        /* Asegurar que el texto se posicione encima de la imagen */
         .class-option label {
             display: block;
-            margin-top: 5px;
             font-weight: bold;
+        }
+        .class-option .class-text {
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -37,30 +42,34 @@
             <div class="card-body">
                 <h1 class="card-title text-center">Estimar la Tasa de Supervivencia</h1>
                 <form action="/predict" method="post">
-                    
                     <!-- Selección de Clase usando imágenes -->
                     <div class="mb-3 text-center">
                         <label for="pclass" class="form-label">Clase del Pasajero:</label>
                         <div class="d-flex justify-content-center">
-                            <div class="class-option">
-                                <input type="radio" id="pclass1" name="pclass" value="3" required>
-                                <label for="pclass1">
-                                    <img src="{{ url_for('static', filename='img/baile3.jpeg') }}" alt="Primera Clase">
+                            <div class="class-option" id="option1">
+                                <input type="radio" id="pclass1" name="pclass" value="1" required>
+                                <label for="pclass1" class="d-block">
+                                    <span class="class-text">1º</span>
+                                    <img src="{{ url_for('static', filename='img/saludo1.jpeg') }}" alt="Primera Clase">
+                                    
                                 </label>
                             </div>
-                            <div class="class-option">
+                            <div class="class-option" id="option2">
                                 <input type="radio" id="pclass2" name="pclass" value="2">
-                                <label for="pclass2">
+                                <label for="pclass2" class="d-block">
+                                    <span class="class-text">2º</span>
                                     <img src="{{ url_for('static', filename='img/cubierta2.jpeg') }}" alt="Segunda Clase">
+                                    
                                 </label>
                             </div>
-                            <div class="class-option">
-                                <input type="radio" id="pclass3" name="pclass" value="1">
-                                <label for="pclass3">
-                                    <img src="{{ url_for('static', filename='img/saludo1.jpeg') }}" alt="Tercera Clase">
+                            <div class="class-option" id="option3">
+                                <input type="radio" id="pclass3" name="pclass" value="3">
+                                <label for="pclass3" class="d-block">
+                                    <span class="class-text">3º</span>
+                                    <img src="{{ url_for('static', filename='img/baile3.jpeg') }}" alt="Tercera Clase">
+                                    
                                 </label>
                             </div>
-                            
                         </div>
                     </div>
 
@@ -114,5 +123,25 @@
 
     <!-- Enlace al JavaScript de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript personalizado para resaltar la imagen seleccionada -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const options = document.querySelectorAll(".class-option");
+
+            options.forEach(option => {
+                const radio = option.querySelector("input[type='radio']");
+                radio.addEventListener("change", function() {
+                    // Remover la clase 'selected' de todos los elementos
+                    options.forEach(opt => opt.classList.remove("selected"));
+
+                    // Añadir la clase 'selected' al contenedor del radio button seleccionado
+                    if (radio.checked) {
+                        option.classList.add("selected");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -50,18 +50,22 @@ def predict():
     # Convertir a porcentaje
     survival_rate = round(prob_supervivir * 100, 2)
 
-    # Determinar el mensaje basado en la probabilidad de supervivencia
+    # Determinar el mensaje y la imagen basado en la probabilidad de supervivencia
     if survival_rate > 75:
         message = "¡Felicidades! Tu probabilidad de supervivencia es bastante alta."
+        image_url = "img/high_survival.png"  # Imagen para alta probabilidad
     elif survival_rate > 50:
         message = "Tienes una buena probabilidad de sobrevivir."
+        image_url = "img/medium_survival.png"  # Imagen para probabilidad media
     elif survival_rate > 25:
         message = "Tu probabilidad de supervivencia es baja."
+        image_url = "img/low_survival.png"  # Imagen para baja probabilidad
     else:
         message = "Lamentablemente, tu probabilidad de supervivencia es muy baja."
+        image_url = "img/very_low_survival.png"  # Imagen para muy baja probabilidad
 
     # Renderizar la página de resultados
-    return render_template('result.html', survival_rate=survival_rate, message=message)
+    return render_template('result.html', survival_rate=survival_rate, message=message, image_url=image_url)
 
 if __name__ == '__main__':
     # Obtener el puerto del entorno de Google Cloud Run o usar el 8080

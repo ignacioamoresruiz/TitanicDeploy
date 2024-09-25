@@ -11,6 +11,9 @@
     <h2>{{ message }}</h2>
     <p>Tasa de Supervivencia Estimada: {{ survival_rate }}%</p>
 
+    <!-- Mostrar la imagen correspondiente -->
+    <img src="{{ url_for('static', filename=image_url) }}" alt="Resultado de Supervivencia">
+
     <a href="/">Volver a intentar</a>
 </body>
 </html>
