@@ -4,16 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado de Supervivencia</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Establecer un tamaño fijo para la imagen */
+        .result-image {
+            width: 300px;  /* Ancho fijo */
+            height: 300px; /* Alto fijo */
+            object-fit: cover; /* Ajustar la imagen al tamaño especificado */
+        }
+        /* Estilo personalizado para el porcentaje */
+        .survival-rate {
+            font-size: 48px; /* Tamaño grande para el porcentaje */
+            font-weight: bold; /* Negrita para destacar */
+            color: #28a745; /* Verde (puedes cambiarlo si prefieres otro color) */
+            text-align: center; /* Asegura que el texto esté centrado */
+        }
+    </style>
 </head>
-<body>
-    <h1>Resultado de Supervivencia en el Titanic</h1>
+<body class="bg-light">
 
-    <h2>{{ message }}</h2>
-    <p>Tasa de Supervivencia Estimada: {{ survival_rate }}%</p>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <!-- Mensaje de resultado -->
+                <h2 class="text-success">{{ message }}</h2>
 
-    <!-- Mostrar la imagen correspondiente -->
-    <img src="{{ url_for('static', filename=image_url) }}" alt="Resultado de Supervivencia">
+                <!-- Tasa de supervivencia en grande y centrada -->
+                <p class="survival-rate">{{ survival_rate }}%</p>
 
-    <a href="/">Volver a intentar</a>
+                <!-- Imagen correspondiente al resultado -->
+                <img src="{{ url_for('static', filename=image_url) }}" alt="Resultado de Supervivencia" class="img-fluid my-4 result-image">
+
+                <!-- Botón para volver al formulario -->
+                <a href="/" class="btn btn-primary w-100">Volver a Intentar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enlace al JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
