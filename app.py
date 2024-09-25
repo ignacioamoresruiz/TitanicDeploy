@@ -47,14 +47,21 @@ def predict():
     prob_fallecer = probas[0][0]  # Probabilidad de fallecer (clase 0)
     prob_supervivir = probas[0][1]  # Probabilidad de sobrevivir (clase 1)
 
-    # Mostrar los resultados
-    print(f"Probabilidad de fallecer: {round(prob_fallecer * 100, 2)}%")
-    print(f"Probabilidad de sobrevivir: {round(prob_supervivir * 100, 2)}%")
-
-    # Si deseas devolver la probabilidad de sobrevivir (usamos prob_supervivir)
+    # Convertir a porcentaje
     survival_rate = round(prob_supervivir * 100, 2)
 
-    return f"<h2>Tasa de Supervivencia Estimada: {survival_rate}%</h2>"
+    # Determinar el mensaje basado en la probabilidad de supervivencia
+    if survival_rate > 75:
+        message = "¡Felicidades! Tu probabilidad de supervivencia es bastante alta."
+    elif survival_rate > 50:
+        message = "Tienes una buena probabilidad de sobrevivir."
+    elif survival_rate > 25:
+        message = "Tu probabilidad de supervivencia es baja."
+    else:
+        message = "Lamentablemente, tu probabilidad de supervivencia es muy baja."
+
+    # Renderizar la página de resultados
+    return render_template('result.html', survival_rate=survival_rate, message=message)
 
 if __name__ == '__main__':
     # Obtener el puerto del entorno de Google Cloud Run o usar el 8080
