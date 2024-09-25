@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervivencia en el Titanic</title>
+</head>
+<body>
+    <h1>Estimar la Tasa de Supervivencia</h1>
+    <form action="/predict" method="post">
+        <!-- Clase del pasajero -->
+        <label for="pclass">Clase (1, 2, 3):</label>
+        <input type="number" id="pclass" name="pclass" required><br><br>
+
+        <!-- Sexo -->
+        <label for="sex">Sexo:</label>
+        <select id="sex" name="sex" required>
+            <option value="male">Hombre</option>
+            <option value="female">Mujer</option>
+        </select><br><br>
+
+        <!-- Número de hermanos/esposas a bordo -->
+        <label for="sibsp">Número de hermanos/esposas a bordo:</label>
+        <input type="number" id="sibsp" name="sibsp" required><br><br>
+
+        <!-- Número de padres/hijos a bordo -->
+        <label for="parch">Número de padres/hijos a bordo:</label>
+        <input type="number" id="parch" name="parch" required><br><br>
+
+        <!-- Grupo de Edad -->
+        <label for="agegroup">Grupo de Edad ('Baby': 1, 'Child': 2, 'Teenager': 3, 'Student': 4, 'Young Adult': 5, 'Adult': 6, 'Senior': 7):</label>
+        <input type="number" id="agegroup" name="agegroup" required><br><br>
+
+        <!-- Embarcación -->
+        <label for="embarked">Puerto de Embarque:</label>
+        <select id="embarked" name="embarked" required>
+            <option value="S">Southampton</option>
+            <option value="C">Cherbourg</option>
+            <option value="Q">Queenstown</option>
+        </select><br><br>
+
+        <!-- Bool de Cabina -->
+        <label for="cabinbool">¿Tenía cabina asignada? (1: Sí, 0: No):</label>
+        <input type="number" id="cabinbool" name="cabinbool" required><br><br>
+
+        <!-- Título -->
+        <label for="title">Título (1=Master,2=Miss, 3=Mr, 4=Mrs, 5=Rare, 6=Royal):</label>
+        <input type="number" id="title" name="title" required><br><br>
+
+        <!-- Banda de tarifa -->
+        <label for="fareband">Banda de Tarifa:(1-4) 1:barata 4:cara</label>
+        <input type="number" id="fareband" name="fareband" required><br><br>
+
+        <input type="submit" value="Predecir Supervivencia">
+    </form>
+</body>
+</html>
