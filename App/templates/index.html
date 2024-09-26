@@ -34,6 +34,45 @@
             display: block;
             margin-bottom: 5px;
         }
+        .sex-option {
+        margin-right: 20px;
+        text-align: center;
+        }
+
+        .sex-option input[type="radio"] {
+            display: none; /* Ocultar el botón de radio */
+        }
+
+        .sex-option img {
+            width: 200px;
+            height: 200px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .sex-option input[type="radio"]:checked + label img {
+            border-color: #007bff; /* Cambiar el color del borde cuando se selecciona */
+        }
+
+        .sex-text {
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        #agegroup {
+        width: 80%;
+        text-align: center;
+        }
+        .form-range {
+            width: 80%; /* Asegura que el slider y las etiquetas tengan el mismo ancho */
+            
+        }
+        .d-flex.justify-content-between span {
+            font-size: 0.9em;
+            text-align: center; /* Centra el texto de las etiquetas */
+            width: 14%; /* Asegura que todas las etiquetas ocupen el mismo espacio proporcional */
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -49,7 +88,7 @@
                             <div class="class-option" id="option1">
                                 <input type="radio" id="pclass1" name="pclass" value="1" required>
                                 <label for="pclass1" class="d-block">
-                                    <span class="class-text">1º</span>
+                                    <span class="class-text">1º Clase</span>
                                     <img src="{{ url_for('static', filename='img/saludo1.jpeg') }}" alt="Primera Clase">
                                     
                                 </label>
@@ -57,7 +96,7 @@
                             <div class="class-option" id="option2">
                                 <input type="radio" id="pclass2" name="pclass" value="2">
                                 <label for="pclass2" class="d-block">
-                                    <span class="class-text">2º</span>
+                                    <span class="class-text">2º Clase</span>
                                     <img src="{{ url_for('static', filename='img/cubierta2.jpeg') }}" alt="Segunda Clase">
                                     
                                 </label>
@@ -65,35 +104,64 @@
                             <div class="class-option" id="option3">
                                 <input type="radio" id="pclass3" name="pclass" value="3">
                                 <label for="pclass3" class="d-block">
-                                    <span class="class-text">3º</span>
+                                    <span class="class-text">3º Clase</span>
                                     <img src="{{ url_for('static', filename='img/baile3.jpeg') }}" alt="Tercera Clase">
-                                    
                                 </label>
                             </div>
                         </div>
                     </div>
 
                     <!-- El resto de los campos del formulario -->
-                    <div class="mb-3">
-                        <label for="sex" class="form-label">Sexo:</label>
-                        <select id="sex" name="sex" class="form-select" required>
-                            <option value="male">Hombre</option>
-                            <option value="female">Mujer</option>
-                        </select>
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="sex-option" id="sex-male">
+                            <input type="radio" id="sex1" name="sex" value="male" required>
+                            <label for="sex1" class="d-block text-center">
+                                <span class="sex-text">Hombre</span>
+                                <img src="{{ url_for('static', filename='img/male.png') }}" alt="Hombre" class="img-fluid rounded">
+                            </label>
+                        </div>
+                        <div class="sex-option" id="sex-female" class="ms-4">
+                            <input type="radio" id="sex2" name="sex" value="female">
+                            <label for="sex2" class="d-block text-center">
+                                <span class="sex-text">Mujer</span>
+                                <img src="{{ url_for('static', filename='img/female.png') }}" alt="Mujer" class="img-fluid rounded">
+                            </label>
+                        </div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="sibsp" class="form-label">Número de hermanos/esposas a bordo:</label>
                         <input type="number" class="form-control" id="sibsp" name="sibsp" required>
                     </div>
-                    <!-- Añade los demás campos aquí -->
                     <div class="mb-3">
                         <label for="parch" class="form-label">Número de padres/hijos a bordo:</label>
                         <input type="number" class="form-control" id="parch" name="parch" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="agegroup" class="form-label">Grupo de Edad ('Baby': 1, 'Child': 2, 'Teenager': 3, 'Student': 4, 'Young Adult': 5, 'Adult': 6, 'Senior': 7):</label>
-                        <input type="number" class="form-control" id="agegroup" name="agegroup" required>
+                    <!-- Añade los demás campos aquí -->
+                    <div class="mb-3 d-flex flex-column align-items-center">
+                        <label for="agegroup" class="form-label">Grupo de Edad:</label>
+                        
+                        <!-- Slider con 80% de ancho centrado -->
+                        <input type="range" class="form-range" id="agegroup" name="agegroup" min="1" max="7" step="1" value="5" 
+                               oninput="ageOutput.value = agegroup.value" style="width: 80%;" required>
+                        
+                        <!-- Mostrar el valor del slider -->
+                        <output id="ageOutput" style="margin-left: 10px;">5</output>
+                    
+                        <!-- Etiquetas distribuidas uniformemente, centradas con el slider -->
+                        <div class="d-flex justify-content-between mt-2" style="width: 90%;">
+                            <span style="text-align: center;">Baby</span>
+                            <span style="text-align: center;">Child</span>
+                            <span style="text-align: center;">Teenager</span>
+                            <span style="text-align: center;">Student</span>
+                            <span style="text-align: center;">Young Adult</span>
+                            <span style="text-align: center;">Adult</span>
+                            <span style="text-align: center;">Senior</span>
+                        </div>
                     </div>
+                    
+                    
+                    
                     <div class="mb-3">
                         <label for="embarked" class="form-label">Puerto de Embarque:</label>
                         <select id="embarked" name="embarked" class="form-select" required>
@@ -113,6 +181,13 @@
                     <div class="mb-3">
                         <label for="fareband" class="form-label">Banda de Tarifa:(1-4) 1:barata 4:cara</label>
                         <input type="number" class="form-control" id="fareband" name="fareband" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo" class="form-label">Selecciona el Modelo:</label>
+                        <select id="modelo" name="modelo" class="form-select" required>
+                            <option value="1">Gradient Boosting Classifier</option>
+                            <option value="2">Support Vector Machine (SVC)</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">Predecir Supervivencia</button>

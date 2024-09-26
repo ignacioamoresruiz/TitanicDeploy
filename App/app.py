@@ -7,7 +7,8 @@ import os
 app = Flask(__name__)
 
 # Cargar el modelo previamente entrenado
-model = pickle.load(open('titanic_model.pkl', 'rb'))
+model = pickle.load(open('/workspaces/TitanicDeploy/Model/gbk_model.pkl', 'rb'))
+model_svc = pickle.load(open('/workspaces/TitanicDeploy/Model/svc_model.pkl', 'rb'))
 
 # Ruta principal para mostrar el formulario
 @app.route('/')
@@ -27,6 +28,7 @@ def predict():
     cabinbool = int(request.form['cabinbool'])
     title = int(request.form['title'])
     fareband = int(request.form['fareband'])  # FareBand debe ser int (aunque sea categórico en pandas)
+    model_selected = int(request.form['modelo'])
 
     # Convertir sexo a binario
     sex_binary = 1 if sex == 'female' else 0
@@ -40,8 +42,13 @@ def predict():
                                 embarked_encoded, agegroup, cabinbool, 
                                 title, fareband]])
 
-    # Hacer la predicción con el modelo
-    probas = model.predict_proba(input_features)
+    # Seleccionar el modelo basado en la opción del usuario
+    if model_selected == 1:
+        # Usar Gradient Boosting Classifier
+        probas = model.predict_proba(input_features)
+    elif model_selected == 2:
+        # Usar Support Vector Machine (SVC)
+        probas = model_svc.predict_proba(input_features)
 
     # Mostrar ambas probabilidades
     prob_fallecer = probas[0][0]  # Probabilidad de fallecer (clase 0)
@@ -70,4 +77,4 @@ def predict():
 if __name__ == '__main__':
     # Obtener el puerto del entorno de Google Cloud Run o usar el 8080
     port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
